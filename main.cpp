@@ -3,6 +3,7 @@
 #include <string>
 #include <math.h>
 #include <random>
+#include <algorithm>
 
 #define DEBUG 1
 
@@ -25,6 +26,47 @@ vector<vector<double> > zeroed_weight(int row, int col){
 	return ret;
 }
 
+vector<double> matrix_multiply(vector<vector<double> > A, vector<double> B){
+	vector<double> ret(A.size(),0);
+	for(int i=0;i<A.size();i++){
+		for(int j=0;j<A[0].size();j++){
+			ret[i]+=A[i][j]*B[j];
+		}
+	}
+	return ret;
+}
+
+vector<double> matrix_add(vector<double> A, vector<double> B){
+	for(int i=0;i<A.size();i++){
+		A[i]+= B[i];
+	}
+	return A;
+}
+
+vector<double> apply_relu(vector<double> A){
+	for(int i=0;i<A.size();i++){
+		A[i] = max(A[i],0);
+	}
+	return A;
+}
+
+vector<double> apply_sigmoid(vector<double> A){
+	for(int i=0;i<A.size();i++){
+		A[i] = exp(A[i])/(1+exp(A[i]));
+	}
+	return A;
+}
+
+double calculate_mean_square_sum(vector<double> A, vector<double> B){
+	int nr_elem = A.size();
+	double ret = 0;
+	for(int i=0;i<nr_elem;i++){
+		ret+= ((A[i] - B[i])*(A[i] - B[i]))/2;
+	}
+	ret = ret/nr_elem;
+	return ret;
+}
+
 int main(){
 	
 	//Initialize layer description
@@ -43,6 +85,9 @@ int main(){
 	double temp_input[] = {30, 54, 12};	
 	vector<double> X_input;
 	X_input.insert(X_input.begin(), temp_input, &temp_input[sizeof(temp_input)/ sizeof(*temp_input)]);
+	double temp_output[] = {15, 27, 6};
+	vector<double> Y_input;
+	Y_input.insert(Y_input.begin(),temp_output, &temp_output[sizeof(temp_output)/ sizeof(*temp_output)]);
 #endif
 	//Forward propagation
 	vector<double> Z1 = matrix_add(matrix_multiply(W1, X_input), b1);
@@ -50,7 +95,8 @@ int main(){
 	vector<double> Z2 = matrix_add(matrix_multiply(W2, A), b2);
 	vector<double> A2 = apply_sigmoid(Z2);
 	
-	
+	//Cost function step
+	double cost = calculate_mean_square_sum(A2, Y_input);
 	
 	
 	return 0;
