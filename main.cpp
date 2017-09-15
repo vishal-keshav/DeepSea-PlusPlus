@@ -98,6 +98,8 @@ int main(){
 	//Cost function step
 	double cost = calculate_mean_square_sum(A2, Y_input);
 	
+	//Backpropagation, based on assumed activations
+	
 	
 	return 0;
 }
