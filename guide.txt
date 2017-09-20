@@ -1,0 +1,20 @@
+*************Project management guidlines************************
+network.txt format:
+nr_layer nodes_layer1 .... nodes_layerN
+activation1 .... activationN [integer defined]
+W1
+b1
+W2
+b2
+..
+..
+Wn
+bn
+
+math_utils.h: Mathematics for vector and matrix multiplication/addition
+
+hyper_param.h: Hyperparameter specifier
+
+network_builder.h: For building network and write in network file given the description
+
+inference.h: Running inference from network file and description
