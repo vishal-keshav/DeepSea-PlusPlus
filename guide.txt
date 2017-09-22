@@ -11,7 +11,7 @@ b2
 Wn
 bn
 
-math_utils.h: Mathematics for vector and matrix multiplication/addition
+math_utils.h: Mathematics for vector and matrix multiplication/addition (blaze-lib)
 
 hyper_param.h: Hyperparameter specifier
 
