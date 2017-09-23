@@ -10,11 +10,11 @@ DynamicMatrix<double> add(DynamicMatrix<double> A, DynamicMatrix<double> B){
 		return A+B;
 	}
 	else if(A.rows() > B.rows() && B.rows()==1 && A.columns()==1 && B.columns()==1){
-		DynamicMatrix<double> C(A.rows(),1UL, B[0][0]));
+		DynamicMatrix<double> C(A.rows(),1, 0);
 		return A+C;
 	}
 	else if(A.rows() == B.rows() && A.columns() > B.columns() && B.columns()==1){
-		DynamicMatrix<double> C(A.rows(), A.columns(), B);
+		DynamicMatrix<double> C(A.rows(), A.columns(), 0);
 		return A+C;
 	}
 	else{
@@ -33,11 +33,11 @@ DynamicMatrix<double> subs(DynamicMatrix<double> A, DynamicMatrix<double> B){
 		return A-B;
 	}
 	else if(A.rows() > B.rows() && B.rows()==1 && A.columns()==1 && B.columns()==1){
-		DynamicMatrix<double> C(A.rows(),1UL, B[0][0]));
+		DynamicMatrix<double> C(A.rows(),1, 0);
 		return A-C;
 	}
 	else if(A.rows() == B.rows() && A.columns() > B.columns() && B.columns()==1){
-		DynamicMatrix<double> C(A.rows(), A.columns(), B);
+		DynamicMatrix<double> C(A.rows(), A.columns(),0);
 		return A-C;
 	}
 	else{
