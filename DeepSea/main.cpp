@@ -1,6 +1,7 @@
 #include <iostream>
 //#include "math_util.h"
 #include "network_builder.h"
+#include "read_write_util.h"
 #include <blaze/Math.h>
 #include <vector>
 //#define MATRIX blaze::DynamicMatrix<double>
@@ -30,6 +31,10 @@ int main()
     initialize_param(&test);
     test.print_weight();
     test.print_bias();
+    cout << relu(test.W[0]) << endl;
+    cout << sigmoid(test.W[1]) << endl;
+
+    cout << read_csv("sample_data.csv", 6, 3) << endl;
 
     return 0;
 }

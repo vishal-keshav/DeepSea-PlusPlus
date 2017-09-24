@@ -11,6 +11,8 @@ b2
 Wn
 bn
 
+^ in read_write_util.h
+
 math_utils.h: Mathematics for vector and matrix multiplication/addition (blaze-lib)
 
 hyper_param.h: Hyperparameter specifier

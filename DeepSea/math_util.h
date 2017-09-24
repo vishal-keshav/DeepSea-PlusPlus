@@ -103,11 +103,20 @@ DynamicMatrix<double> mul_elem(DynamicMatrix<double> A, DynamicMatrix<double> B)
 #endif
 		return A;
 	}
-
 }
 
 DynamicMatrix<double> scaler_mul_elem(DynamicMatrix<double> A, double m){
 
 	return A*m;
 
+}
+
+DynamicMatrix<double> relu(DynamicMatrix<double> A){
+	A = map(A, [](double elem) {return (elem>0?elem:0);});
+	return A;
+}
+
+DynamicMatrix<double> sigmoid(DynamicMatrix<double> A){
+	A = map(A, [](double elem) {return (1.0/(1+exp(elem)));});
+	return A;
 }
