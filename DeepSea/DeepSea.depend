@@ -1,4 +1,9 @@
 # depslib dependency file v1.0
-1506103904 source:d:\personal files\deepsea-plusplus\deepsea\main.cpp
+1506190865 source:d:\personal files\deepsea-plusplus\deepsea\main.cpp
 	<iostream>
+	"math_util.h"
+	<blaze/Math.h>
+
+1506238390 d:\personal files\deepsea-plusplus\deepsea\math_util.h
+	<blaze/Math.h>
 
