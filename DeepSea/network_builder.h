@@ -51,3 +51,82 @@ class model_param{
         int nr_layer;
 		vector<int> layer_info;
 };
+
+class forward_param{
+	public:
+		vector<DynamicMatrix<double> > Z;
+		vector<DynamicMatrix<double> > A;
+		forward_param(vector<int> vec, int b_size){
+			nr_layer = vec.size();
+			batch_size = b_size;
+			layer_info = vec;
+			Z.resize(nr_layer);
+			A.resize(nr_layer);
+			for(int i=0;i<nr_layer;i++){
+				Z[i].resize(vec[i], b_size);
+				A[i].resize(vec[i], b_size);
+			}
+		}
+		void print_linear(void){
+			for(int i=0;i<nr_layer;i++){
+				std::cout << Z[i];
+			}
+		}
+		void print_activated(void){
+			for(int i=0;i<nr_layer;i++){
+				std::cout << A[i];
+			}
+		}
+	private:
+		int nr_layer;
+		int batch_size;
+		vector<int> layer_info;
+	
+};
+
+class backward_param{
+	public:
+		vector<DynamicMatrix<double> > dW;
+		vector<DynamicMatrix<double> > db;
+		vector<DynamicMatrix<double> > dA;
+		vector<DynamicMatrix<double> > dZ;
+		backward_param(vector<int> vec, int b_size){
+			nr_layer = vec.size();
+			batch_size = b_size;
+			layer_info = vec;
+			dW.resize(nr_layer-1);
+			db.resize(nr_layer-1);
+			dA.resize(nr_layer-1);
+			dZ.resize(nr_layer-1);
+			for(int i=0;i<nr_layer-1;i++){
+				dW[i].resize(vec[i+1],vec[i]);
+				db[i].resize(vec[i+1],1);
+				dA.resize(vec[i+1],b_size);
+				dZ.resize(vec[i+1],b_size);
+			}
+		}
+		void print_linear_derivative(void){
+			for(int i=0;i<nr_layer-1;i++){
+				std::cout << dZ[i];
+			}
+		}
+		void print_activated_derivative(void){
+			for(int i=0;i<nr_layer-1;i++){
+				std::cout << dA[i];
+			}
+		}
+		void print_weight_derivative(void){
+			for(int i=0;i<nr_layer-1;i++){
+				std::cout << dW[i];
+			}
+		}
+		void print_bias_derivative(void){
+			for(int i=0;i<nr_layer-1;i++){
+				std::cout << db[i];
+			}
+		}
+	private:
+		int nr_layer;
+		int batch_size;
+		vector<int> layer_info;
+};
