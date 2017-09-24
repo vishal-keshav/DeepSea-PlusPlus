@@ -20,11 +20,16 @@
 #include <blaze/Math.h>
 #include <vector>
 #include <iostream>
+#include <math.h>
+#include <random>
 
 using namespace std;
 
 class model_param{
 	public:
+        int nr_layer;
+		vector<int> layer_info;
+
 		vector<DynamicMatrix<double> > W;
 		vector<DynamicMatrix<double> > b;
 		model_param(vector<int > vec){
@@ -47,13 +52,14 @@ class model_param{
 				std::cout << b[i];
 			}
 		}
-    private:
-        int nr_layer;
-		vector<int> layer_info;
 };
 
 class forward_param{
 	public:
+        int nr_layer;
+		int batch_size;
+		vector<int> layer_info;
+
 		vector<DynamicMatrix<double> > Z;
 		vector<DynamicMatrix<double> > A;
 		forward_param(vector<int> vec, int b_size){
@@ -77,15 +83,15 @@ class forward_param{
 				std::cout << A[i];
 			}
 		}
-	private:
-		int nr_layer;
-		int batch_size;
-		vector<int> layer_info;
-	
+
 };
 
 class backward_param{
 	public:
+        int nr_layer;
+		int batch_size;
+		vector<int> layer_info;
+
 		vector<DynamicMatrix<double> > dW;
 		vector<DynamicMatrix<double> > db;
 		vector<DynamicMatrix<double> > dA;
@@ -101,8 +107,8 @@ class backward_param{
 			for(int i=0;i<nr_layer-1;i++){
 				dW[i].resize(vec[i+1],vec[i]);
 				db[i].resize(vec[i+1],1);
-				dA.resize(vec[i+1],b_size);
-				dZ.resize(vec[i+1],b_size);
+				dA[i].resize(vec[i+1],b_size);
+				dZ[i].resize(vec[i+1],b_size);
 			}
 		}
 		void print_linear_derivative(void){
@@ -125,8 +131,24 @@ class backward_param{
 				std::cout << db[i];
 			}
 		}
-	private:
-		int nr_layer;
-		int batch_size;
-		vector<int> layer_info;
 };
+
+
+void initialize_param(model_param * m_p){
+	default_random_engine generator;
+	normal_distribution<double> distribution(0.0,1.0);
+	for(int i=0;i<m_p->nr_layer-1;i++){
+		for(int j=0;j<m_p->W[i].rows();j++){
+			for(int k=0;k<m_p->W[i].columns();k++){
+				m_p->W[i](j,k) = distribution(generator);
+			}
+		}
+	}
+	for(int i=0;i<m_p->nr_layer-1;i++){
+		for(int j=0;j<m_p->b[i].rows();j++){
+			for(int k=0;k<m_p->b[i].columns();k++){
+				m_p->b[i](j,k) = 0;
+			}
+		}
+	}
+}

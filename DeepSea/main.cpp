@@ -27,6 +27,9 @@ int main()
     model_param test(layer);
     test.print_weight();
     test.print_bias();
+    initialize_param(&test);
+    test.print_weight();
+    test.print_bias();
 
     return 0;
 }
