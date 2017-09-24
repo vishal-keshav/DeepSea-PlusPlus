@@ -1,4 +1,4 @@
-/* Extended class version of segment tree implementation
+/* Main funtion for trial
  * Copyright (C) bulletcross (Vishal Keshav)
 
  * This program is free software; you can redistribute it and/or
