@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
- 
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -30,9 +30,9 @@ DynamicMatrix<double> read_csv(string file_name, int nr_rows, int nr_cols){
 	string::size_type temp;
 	string line, word;
 	ifstream file_reader;
-	
+
 	file_reader.open(file_name.c_str());
-	
+
 	if(!file_reader){
 		cout << "Warning: CSV mismatch" << endl;
 		return ret;
@@ -54,4 +54,30 @@ DynamicMatrix<double> read_csv(string file_name, int nr_rows, int nr_cols){
 		c=0;
 	}
 	return ret;
+}
+
+void write_model(model_param *m_p, string file_name){
+	ofstream model_file;
+	model_file.open(file_name.c_str());
+	for(int i=0;i<m_p->nr_layer;i++){
+		model_file << m_p->layer_info[i] << " ";
+	}
+	model_file << std::endl;
+	for(int i=0;i<m_p->nr_layer-1;i++){
+		//Write weight
+		for(int j=0;j<m_p->W[i].rows();j++){
+			for(int k=0;k<m_p->W[i].columns();k++){
+				model_file << m_p->W[i](j,k) << " ";
+			}
+			model_file << std::endl;
+		}
+		//Writing biases
+		for(int j=0;j<m_p->b[i].rows();j++){
+			for(int k=0;k<m_p->b[i].columns();k++){
+				model_file << m_p->b[i](j,k) << " ";
+			}
+			model_file << std::endl;
+		}
+	}
+	model_file.close();
 }

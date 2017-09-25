@@ -1,5 +1,5 @@
 #include <iostream>
-//#include "math_util.h"
+#include "math_util.h"
 #include "network_builder.h"
 #include "read_write_util.h"
 #include <blaze/Math.h>
@@ -47,6 +47,8 @@ int main()
     f_test.print_linear();
     cout << endl;
     f_test.print_activated();
+
+    write_model(&test, "model_1.txt");
 
     return 0;
 }
