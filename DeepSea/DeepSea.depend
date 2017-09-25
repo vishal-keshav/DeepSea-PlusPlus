@@ -1,17 +1,27 @@
 # depslib dependency file v1.0
-1506251251 source:d:\personal files\deepsea-plusplus\deepsea\main.cpp
+1506356432 source:d:\personal files\deepsea-plusplus\deepsea\main.cpp
 	<iostream>
 	"network_builder.h"
+	"read_write_util.h"
 	<blaze/Math.h>
 	<vector>
 
-1506250410 d:\personal files\deepsea-plusplus\deepsea\math_util.h
+1506356566 d:\personal files\deepsea-plusplus\deepsea\math_util.h
 	<blaze/Math.h>
 	<iostream>
 
-1506251342 d:\personal files\deepsea-plusplus\deepsea\network_builder.h
+1506262752 d:\personal files\deepsea-plusplus\deepsea\network_builder.h
 	"math_util.h"
 	<blaze/Math.h>
 	<vector>
 	<iostream>
+	<math.h>
+	<random>
+
+1506272501 d:\personal files\deepsea-plusplus\deepsea\read_write_util.h
+	<iostream>
+	<fstream>
+	<sstream>
+	<blaze/Math.h>
+	<string>
 

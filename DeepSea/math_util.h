@@ -111,12 +111,36 @@ DynamicMatrix<double> scaler_mul_elem(DynamicMatrix<double> A, double m){
 
 }
 
-DynamicMatrix<double> relu(DynamicMatrix<double> A){
+DynamicMatrix<double> apply_relu(DynamicMatrix<double> A){
 	A = map(A, [](double elem) {return (elem>0?elem:0);});
 	return A;
 }
 
-DynamicMatrix<double> sigmoid(DynamicMatrix<double> A){
+DynamicMatrix<double> apply_sigmoid(DynamicMatrix<double> A){
 	A = map(A, [](double elem) {return (1.0/(1+exp(elem)));});
 	return A;
+}
+
+DynamicMatrix<double> apply_log(DynamicMatrix<double> A){
+	A = map(A, [](double elem) {return log(elem);});
+	return A;
+}
+
+DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
+	//softmax(vec) = exp(v_i)/sum(exp(v_i)) over all i
+	//Considering each column represent one set of input
+	DynamicMatrix<double> B = map(A, [](double elem) {return exp(elem);});
+	DynamicMatrix<double> sum(1,B.columns());
+	sum = 0;
+	for(int i=0;i<B.rows();i++){
+        for(int j=0;j<B.columns();j++){
+            sum(0,j)= sum(0,j) + B(i,j);
+        }
+	}
+	for(int i=0;i<B.rows();i++){
+		for(int j=0;j<B.columns();j++){
+			B(i,j) = B(i,j)/sum(0,j);
+		}
+	}
+	return B;
 }

@@ -35,6 +35,8 @@
 		</Compiler>
 		<Unit filename="main.cpp" />
 		<Unit filename="math_util.h" />
+		<Unit filename="network_builder.h" />
+		<Unit filename="read_write_util.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

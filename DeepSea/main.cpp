@@ -26,15 +26,16 @@ int main()
     static const int arr[] = {3,5,4};
     vector<int> layer (arr, arr + sizeof(arr) / sizeof(arr[0]) );
     model_param test(layer);
-    test.print_weight();
-    test.print_bias();
+    //test.print_weight();
+    //test.print_bias();
     initialize_param(&test);
-    test.print_weight();
-    test.print_bias();
-    cout << relu(test.W[0]) << endl;
-    cout << sigmoid(test.W[1]) << endl;
+    //test.print_weight();
+    //test.print_bias();
+    //cout << apply_relu(test.W[0]) << endl;
+    //cout << apply_sigmoid(test.W[1]) << endl;
 
-    cout << read_csv("sample_data.csv", 6, 3) << endl;
-
+    blaze::DynamicMatrix<double> D = read_csv("sample_data.csv", 3, 3);
+    cout << apply_log(D) << endl;
+    cout << apply_softmax(D) << endl;
     return 0;
 }
