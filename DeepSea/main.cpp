@@ -35,7 +35,8 @@ int main()
     //cout << apply_sigmoid(test.W[1]) << endl;
 
     blaze::DynamicMatrix<double> D = read_csv("sample_data.csv", 3, 3);
-    cout << apply_log(D) << endl;
-    cout << apply_softmax(D) << endl;
+    //cout << apply_log(D) << endl;
+    //cout << apply_softmax(D) << endl;
+    cout << mean_cross_entropy_loss(D, apply_softmax(D)) << endl;
     return 0;
 }

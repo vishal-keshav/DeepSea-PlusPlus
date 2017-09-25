@@ -43,7 +43,7 @@ DynamicMatrix<double> add(DynamicMatrix<double> A, DynamicMatrix<double> B){
 	}
 	else{
 #ifdef DEBUG
-		std::cout << "WARN: dimention mismatch" << std::endl;;
+		std::cout << "WARN: dimention mismatch" << std::endl;
 #endif
 		return A;
 	}
@@ -71,7 +71,7 @@ DynamicMatrix<double> subs(DynamicMatrix<double> A, DynamicMatrix<double> B){
 	}
 	else{
 #ifdef DEBUG
-		std::cout << "WARN: dimention mismatch" << std::endl;;
+		std::cout << "WARN: dimention mismatch" << std::endl;
 #endif
 		return A;
 	}
@@ -85,7 +85,7 @@ DynamicMatrix<double> mul(DynamicMatrix<double> A, DynamicMatrix<double> B){
 	}
 	else{
 #ifdef DEBUG
-		std::cout << "WARN: dimention mismatch" << std::endl;;
+		std::cout << "WARN: dimention mismatch" << std::endl;
 #endif
 		return A;
 	}
@@ -99,7 +99,7 @@ DynamicMatrix<double> mul_elem(DynamicMatrix<double> A, DynamicMatrix<double> B)
 	}
 	else{
 #ifdef DEBUG
-		std::cout << "WARN: dimention mismatch" << std::endl;;
+		std::cout << "WARN: dimention mismatch" << std::endl;
 #endif
 		return A;
 	}
@@ -143,4 +143,25 @@ DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
 		}
 	}
 	return B;
+}
+
+double mean_cross_entropy_loss(DynamicMatrix<double> hot, DynamicMatrix<double> soft){
+	double ret = 0.0;
+#ifdef DEBUG
+	if(hot.rows()!=soft.rows() || hot.columns()!=soft.columns()){
+		std::cout << "WARN: dimention mismatch" << std::endl;
+	}
+#endif
+    DynamicMatrix<double> soft_log = apply_log(soft);
+	DynamicMatrix<double> loss(1, hot.columns());
+	for(int i=0;i<hot.columns();i++){
+		double temp = 0;
+		for(int j=0;j<hot.rows();j++){
+			temp = temp + hot(j,i)*soft_log(j,i);
+		}
+		loss(0,i) = temp;
+		ret = ret + temp;
+	}
+	ret = ret/hot.columns();
+	return ret;
 }
