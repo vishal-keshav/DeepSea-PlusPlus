@@ -37,6 +37,16 @@ int main()
     blaze::DynamicMatrix<double> D = read_csv("sample_data.csv", 3, 3);
     //cout << apply_log(D) << endl;
     //cout << apply_softmax(D) << endl;
-    cout << mean_cross_entropy_loss(D, apply_softmax(D)) << endl;
+    //cout << mean_cross_entropy_loss(D, apply_softmax(D)) << endl;
+    forward_param f_test(layer,3);
+    f_test.print_linear();
+    cout << endl;
+    f_test.print_activated();
+    cout << endl;
+    feed_forward(&test, &f_test, D);
+    f_test.print_linear();
+    cout << endl;
+    f_test.print_activated();
+
     return 0;
 }

@@ -159,9 +159,10 @@ double mean_cross_entropy_loss(DynamicMatrix<double> hot, DynamicMatrix<double> 
 		for(int j=0;j<hot.rows();j++){
 			temp = temp + hot(j,i)*soft_log(j,i);
 		}
-		loss(0,i) = temp;
-		ret = ret + temp;
+		loss(0,i) = -temp;
+		ret = ret + loss(0,i);
 	}
 	ret = ret/hot.columns();
 	return ret;
 }
+

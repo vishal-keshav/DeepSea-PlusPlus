@@ -23,6 +23,8 @@
 #include <math.h>
 #include <random>
 
+#define DEBUG 0
+
 using namespace std;
 
 class model_param{
@@ -153,4 +155,20 @@ void initialize_param(model_param * m_p){
 	}
 }
 
-
+void feed_forward(model_param *m_p, forward_param *f_p, DynamicMatrix<double> X){
+	int nr_layer = m_p->nr_layer;
+	//For now we can assume relu has been applied in hidden units and ends with softmax
+#ifdef DEBUG
+	if(f_p->Z[0].columns()!=X.columns()){
+		std::cout << "Warning: dimention mismatch" << std::endl;
+	}
+#endif
+	f_p->Z[0] = X;
+	f_p->A[0] = X;
+	for(int i=1;i<nr_layer-1;i++){
+		f_p->Z[i] = add(mul(m_p->W[i-1], f_p->A[i-1]), m_p->b[i-1]);
+		f_p->A[i] = apply_relu(f_p->Z[i]);
+	}
+	f_p->Z[nr_layer-1] = add(mul(m_p->W[nr_layer-2], f_p->A[nr_layer-2]), m_p->b[nr_layer-2]);
+	f_p->A[nr_layer-1] = apply_softmax(f_p->Z[nr_layer-1]);
+}
