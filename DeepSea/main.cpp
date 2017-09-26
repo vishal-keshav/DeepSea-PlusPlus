@@ -34,7 +34,8 @@ int main()
     //cout << apply_relu(test.W[0]) << endl;
     //cout << apply_sigmoid(test.W[1]) << endl;
 
-    blaze::DynamicMatrix<double> D = read_csv("sample_data.csv", 3, 3);
+    blaze::DynamicMatrix<double> X = read_csv("sample_data1.csv", 3, 3);
+    blaze::DynamicMatrix<double> Y = read_csv("sample_data2.csv", 4, 3);
     //cout << apply_log(D) << endl;
     //cout << apply_softmax(D) << endl;
     //cout << mean_cross_entropy_loss(D, apply_softmax(D)) << endl;
@@ -43,12 +44,15 @@ int main()
     cout << endl;
     f_test.print_activated();
     cout << endl;
-    feed_forward(&test, &f_test, D);
+    feed_forward(&test, &f_test, X);
     f_test.print_linear();
     cout << endl;
     f_test.print_activated();
+    backward_param b_test(layer,3);
 
-    write_model(&test, "model_1.txt");
+    back_prop(&test,&f_test,&b_test,Y);
+    gradient_descent(&test, &b_test, 0.2);
+    //write_model(&test, "model_1.txt");
 
     return 0;
 }

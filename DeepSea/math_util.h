@@ -166,3 +166,11 @@ double mean_cross_entropy_loss(DynamicMatrix<double> hot, DynamicMatrix<double> 
 	return ret;
 }
 
+DynamicMatrix<double> derivative_cross_entropy_softmax(DynamicMatrix<double> hot, DynamicMatrix<double> soft){
+    return subs(soft, hot);
+}
+
+DynamicMatrix<double> derivative_relu(DynamicMatrix<double> A){
+	A = map(A, [](double elem) {return (elem<0?0:1);});
+	return A;
+}

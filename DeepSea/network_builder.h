@@ -171,3 +171,35 @@ void feed_forward(model_param *m_p, forward_param *f_p, DynamicMatrix<double> X)
 	f_p->Z[nr_layer-1] = add(mul(m_p->W[nr_layer-2], f_p->A[nr_layer-2]), m_p->b[nr_layer-2]);
 	f_p->A[nr_layer-1] = apply_softmax(f_p->Z[nr_layer-1]);
 }
+
+void back_prop(model_param *m_p, forward_param *f_p, backward_param *b_p, DynamicMatrix<double> Y){
+    int nr_layer = m_p->nr_layer;
+    //For now, we assume softmax at last layer with cross entropy cost function
+#ifdef DEBUG
+    std::cout << "To bug" << std::endl;
+#endif
+    b_p->dZ[nr_layer-1] = derivative_cross_entropy_softmax(Y, f_p->A[nr_layer-1]);
+    //Iterate assuming relu as hidden units
+    for(int i=nr_layer-2;i>=0;i--){
+        b_p->dW[i] = mul(b_p->dZ[i+1], trans(f_p->A[i]))/Y.columns();
+        b_p->db[i] = 0;
+        for(int j=0;j<b_p->db[i].rows();j++){
+            for(int k=0;k<Y.columns();k++){
+                b_p->db[i](j,0) = b_p->db[i](j,0) + b_p->dZ[i+1](j,k);
+            }
+        }
+        b_p->db[i] = b_p->db[i]/Y.columns();
+        b_p->dA[i] = mul(trans(m_p->W[i]),b_p->dZ[i+1]);
+
+        //Apply relu derivative for dZ
+        b_p->dZ[i] = mul_elem(b_p->dA[i],derivative_relu(f_p->Z[i]));
+    }
+}
+
+void gradient_descent(model_param *m_p, backward_param *b_p, double learning_rate){
+    int nr_layer = m_p->nr_layer;
+    for(int i=0;i<nr_layer-1;i++){
+        m_p->W[i] = subs(m_p->W[i], b_p->dW[i]*learning_rate);
+        m_p->b[i] = subs(m_p->b[i], b_p->db[i]*learning_rate);
+    }
+}
