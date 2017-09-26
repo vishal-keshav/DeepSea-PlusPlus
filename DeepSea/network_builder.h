@@ -103,8 +103,8 @@ class backward_param{
 			layer_info = vec;
 			dW.resize(nr_layer-1);
 			db.resize(nr_layer-1);
-			dA.resize(nr_layer-1);
-			dZ.resize(nr_layer-1);
+			dA.resize(nr_layer);
+			dZ.resize(nr_layer);
 			for(int i=0;i<nr_layer-1;i++){
 				dW[i].resize(vec[i+1],vec[i]);
 				db[i].resize(vec[i+1],1);
@@ -176,7 +176,7 @@ void back_prop(model_param *m_p, forward_param *f_p, backward_param *b_p, Dynami
     int nr_layer = m_p->nr_layer;
     //For now, we assume softmax at last layer with cross entropy cost function
 #ifdef DEBUG
-    std::cout << "To bug" << std::endl;
+    //std::cout << "To bug" << std::endl;
 #endif
     b_p->dZ[nr_layer-1] = derivative_cross_entropy_softmax(Y, f_p->A[nr_layer-1]);
     //Iterate assuming relu as hidden units

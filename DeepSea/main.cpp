@@ -52,7 +52,7 @@ int main()
 
     back_prop(&test,&f_test,&b_test,Y);
     gradient_descent(&test, &b_test, 0.2);
-    //write_model(&test, "model_1.txt");
+    write_model(&test, "model_1.txt");
 
     return 0;
 }
