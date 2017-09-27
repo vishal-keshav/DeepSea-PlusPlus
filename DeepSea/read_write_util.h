@@ -81,3 +81,43 @@ void write_model(model_param *m_p, string file_name){
 	}
 	model_file.close();
 }
+
+model_param read_model(string file_name){
+	ifstream model_file;
+	model_file.open(file_name.c_str());
+	string line,word;
+	string::size_type temp;
+	vector<int> layer_info;
+	//get the layer info
+	getline(model_file,line);
+	stringstream ss(line);
+	while(ss){
+		ss >> word;
+		layer_info.push_back(stod(word, &temp));
+	}
+	//TO-DO: Debug this issue, last element repeated
+	layer_info.pop_back();
+	/*for(int i=0;i<layer_info.size();i++){
+        std::cout << layer_info[i] << " ";
+	}*/
+	vector<DynamicMatrix<double> > weights;
+	vector<DynamicMatrix<double> > bias;
+	model_param m_p(layer_info);
+	for(int i=0;i<layer_info.size()-1;i++){
+		DynamicMatrix<double> w(layer_info[i+1], layer_info[i]);
+		for(int j=0;j<w.rows();j++){
+			for(int k=0;k<w.columns();k++){
+				model_file >> w(j,k);
+			}
+		}
+		DynamicMatrix<double> b(layer_info[i+1],1);
+		for(int j=0;j<b.rows();j++){
+			model_file >> b(j,0);
+		}
+		weights.push_back(w);
+		bias.push_back(b);
+		m_p.W[i] = w;
+		m_p.b[i] = b;
+	}
+	return m_p;
+}

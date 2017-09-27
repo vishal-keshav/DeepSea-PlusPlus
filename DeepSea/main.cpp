@@ -40,19 +40,20 @@ int main()
     //cout << apply_softmax(D) << endl;
     //cout << mean_cross_entropy_loss(D, apply_softmax(D)) << endl;
     forward_param f_test(layer,3);
-    f_test.print_linear();
+    //f_test.print_linear();
     cout << endl;
-    f_test.print_activated();
+    //f_test.print_activated();
     cout << endl;
     feed_forward(&test, &f_test, X);
-    f_test.print_linear();
+    //f_test.print_linear();
     cout << endl;
-    f_test.print_activated();
+    //f_test.print_activated();
     backward_param b_test(layer,3);
 
     back_prop(&test,&f_test,&b_test,Y);
     gradient_descent(&test, &b_test, 0.2);
     write_model(&test, "model_1.txt");
+    model_param m_p = read_model("model_1.txt");
 
     return 0;
 }
