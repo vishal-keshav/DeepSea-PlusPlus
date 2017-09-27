@@ -55,5 +55,15 @@ int main()
     write_model(&test, "model_1.txt");
     model_param m_p = read_model("model_1.txt");
 
+    //Initialize variables, decide on batch size[DONE]
+    //For each epoch[DONE]
+    //Retrieve batch[TODO]
+    //forward pass[DONE]
+    //Backward pass[DONE]
+    //Write model[DONE]
+
+    //Read model[DONE]
+    //output = predict(input,m_p)[TODO]
+
     return 0;
 }
