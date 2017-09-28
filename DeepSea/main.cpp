@@ -41,6 +41,8 @@ int main()
 		cout << "Cost for epoch " << i << " is " << mean_cross_entropy_loss(Y_test, O) << endl;
 		cout << "Accuracy for epoch " << i << " is " << accuracy(Y_test, O) << endl;
 	}
-
+	
+	write_model(&m_p, "model_2.txt");
+	
     return 0;
 }
