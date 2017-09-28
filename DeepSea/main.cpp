@@ -2,6 +2,7 @@
 #include "math_util.h"
 #include "network_builder.h"
 #include "read_write_util.h"
+#include "prediction.h"
 #include <blaze/Math.h>
 #include <vector>
 //#define MATRIX blaze::DynamicMatrix<double>
@@ -63,7 +64,12 @@ int main()
     //Write model[DONE]
 
     //Read model[DONE]
-    //output = predict(input,m_p)[TODO]
+    //output = predict(input,m_p)[DONE]
+
+    DynamicMatrix<double> pred = predict(&m_p, &f_test, X);
+    cout << pred << endl;
+    cout << accuracy(Y, pred) << endl;
+    cout << mean_cross_entropy_loss(Y, pred) << endl;
 
     return 0;
 }

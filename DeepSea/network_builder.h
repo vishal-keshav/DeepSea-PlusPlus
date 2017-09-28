@@ -203,3 +203,25 @@ void gradient_descent(model_param *m_p, backward_param *b_p, double learning_rat
         m_p->b[i] = subs(m_p->b[i], b_p->db[i]*learning_rate);
     }
 }
+
+int nr_correct(DynamicMatrix<double> label, DynamicMatrix<double> soft){
+	int ret = 0, max_index,max_elem;
+	for(int i=0;i<label.columns();i++){
+		max_elem = -1;
+		max_index = -1;
+		for(int j=0;j<label.rows();j++){
+			if(max_elem < soft(j,i)){
+				max_elem = soft(j,i);
+				max_index = j;
+			}
+		}
+		if(label(max_index,i) == 1){
+			ret++;
+		}
+	}
+	return ret;
+}
+
+double accuracy(DynamicMatrix<double> label, DynamicMatrix<double> soft){
+	return ((double)nr_correct(label,soft)*100)/(label.columns());
+}
