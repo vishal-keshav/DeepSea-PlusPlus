@@ -56,6 +56,47 @@ DynamicMatrix<double> read_csv(string file_name, int nr_rows, int nr_cols){
 	return ret;
 }
 
+DynamicMatrix<double> read_csv_modified(string file_name, int nr_rows, int nr_cols, int **label){
+	DynamicMatrix<double> ret(nr_cols, nr_rows);
+	int *ret_label = new int[nr_rows];
+	int r=0,c=0;
+	string::size_type temp;
+	string line, word;
+	ifstream file_reader;
+
+	file_reader.open(file_name.c_str());
+
+	while(file_reader){
+		string line;
+		if(!getline(file_reader, line)){
+			break;
+		}
+		istringstream ss(line);
+		getline(ss, word, ',');
+		ret_label[r] = (word[0] - 'A');
+		while(ss){
+			if(!getline(ss, word, ',')){
+				break;
+			}
+			ret(c,r) = (double)stod(word,&temp);
+			c++;
+		}
+		r++;
+		c=0;
+	}
+	*label = ret_label;
+	return ret;
+}
+
+DynamicMatrix<double> get_label_modified(int *label, int rows, int cols){
+	DynamicMatrix<double> ret(rows,cols);
+	ret = 0.0;
+	for(int i=0;i<cols;i++){
+		ret(label[i],i) = 1.0;
+	}
+	return ret;
+}
+
 void write_model(model_param *m_p, string file_name){
 	ofstream model_file;
 	model_file.open(file_name.c_str());

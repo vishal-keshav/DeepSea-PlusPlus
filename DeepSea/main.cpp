@@ -12,23 +12,29 @@ int main()
 	//Define layer structure
 	static const int arr[] = {16, 20, 35, 10, 26};
 	vector<int> layer (arr, arr + sizeof(arr)/sizeof(arr[0]));
-	
+
 	//Declare training params
 	int batch_size = 100;
 	int nr_epoch = 10;
 	double learning_rate = 0.2;
-	
+
 	//Intialize model and train graph parameters
 	model_param m_p(layer);
 	initialize_param(&m_p);
-	
+
 	forward_param f_p(layer, batch_size);
 	backward_param b_p(layer, batch_size);
-	
+
 	//read datafile, seperate test data X_test, Y_test
-	
+	int *temp_label;
+	DynamicMatrix<double> X_all = read_csv_modified("letter-recognition_small.data", 10, 16, &temp_label);
+	DynamicMatrix<double> Y_all = get_label_modified(temp_label, 26, 10);
+
+    //DynamicMatrix<double> X = submatrix(X_all, 0UL, 0UL, 16UL, 5UL );
+
+
 	//Start training
-	for(int i=0;i<nr_epoch;i++){
+	/*for(int i=0;i<nr_epoch;i++){
 		nr_batch = ; //Based on read datafile
 		for(int j=0;j<nr_batch;j++){
 			//Preapare input batch X and output label Y
@@ -41,8 +47,8 @@ int main()
 		cout << "Cost for epoch " << i << " is " << mean_cross_entropy_loss(Y_test, O) << endl;
 		cout << "Accuracy for epoch " << i << " is " << accuracy(Y_test, O) << endl;
 	}
-	
-	write_model(&m_p, "model_2.txt");
-	
+
+	write_model(&m_p, "model_2.txt");*/
+
     return 0;
 }
