@@ -159,7 +159,7 @@ void feed_forward(model_param *m_p, forward_param *f_p, DynamicMatrix<double> X)
 	//For now we can assume relu has been applied in hidden units and ends with softmax
 #ifdef DEBUG
 	if(f_p->Z[0].columns()!=X.columns()){
-		std::cout << "Warning: dimention mismatch" << std::endl;
+		std::cout << "Warning a: dimention mismatch" << std::endl;
 	}
 #endif
 	f_p->Z[0] = X;
