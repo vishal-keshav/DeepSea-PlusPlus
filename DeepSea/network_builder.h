@@ -144,6 +144,7 @@ void initialize_param(model_param * m_p){
 				m_p->W[i](j,k) = distribution(generator);
 			}
 		}
+		m_p->W[i] = m_p->W[i]*0.2;
 	}
 	for(int i=0;i<m_p->nr_layer-1;i++){
 		for(int j=0;j<m_p->b[i].rows();j++){
@@ -223,5 +224,5 @@ int nr_correct(DynamicMatrix<double> label, DynamicMatrix<double> soft){
 }
 
 double accuracy(DynamicMatrix<double> label, DynamicMatrix<double> soft){
-	return ((double)nr_correct(label,soft)*100)/(label.columns());
+	return ((double)nr_correct(label,soft)*100)/(double)(label.columns());
 }
