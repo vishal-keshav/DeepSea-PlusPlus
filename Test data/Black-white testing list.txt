@@ -1,0 +1,14 @@
+Black box testing:
+
+Weight initialization: 
+Single feed forward:
+Multiple feed forward:
+Single back prop:
+Multiple back prop:
+Gradient decent:
+Loss function:
+Accuracy calculator:
+
+White box testing:
+Training:
+Prediction:
