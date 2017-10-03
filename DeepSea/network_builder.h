@@ -144,7 +144,7 @@ void initialize_param(model_param * m_p){
 				m_p->W[i](j,k) = distribution(generator);
 			}
 		}
-		m_p->W[i] = m_p->W[i]*0.2;
+		m_p->W[i] = m_p->W[i]*0.01;
 	}
 	for(int i=0;i<m_p->nr_layer-1;i++){
 		for(int j=0;j<m_p->b[i].rows();j++){
@@ -182,14 +182,14 @@ void back_prop(model_param *m_p, forward_param *f_p, backward_param *b_p, Dynami
     b_p->dZ[nr_layer-1] = derivative_cross_entropy_softmax(Y, f_p->A[nr_layer-1]);
     //Iterate assuming relu as hidden units
     for(int i=nr_layer-2;i>=0;i--){
-        b_p->dW[i] = mul(b_p->dZ[i+1], trans(f_p->A[i]))/Y.columns();
+        b_p->dW[i] = mul(b_p->dZ[i+1], trans(f_p->A[i]));
         b_p->db[i] = 0;
         for(int j=0;j<b_p->db[i].rows();j++){
             for(int k=0;k<Y.columns();k++){
                 b_p->db[i](j,0) = b_p->db[i](j,0) + b_p->dZ[i+1](j,k);
             }
         }
-        b_p->db[i] = b_p->db[i]/Y.columns();
+        b_p->db[i] = b_p->db[i];
         b_p->dA[i] = mul(trans(m_p->W[i]),b_p->dZ[i+1]);
 
         //Apply relu derivative for dZ

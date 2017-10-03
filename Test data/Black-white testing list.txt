@@ -1,8 +1,8 @@
 Black box testing:
 
-Weight initialization: 
-Single feed forward:
-Multiple feed forward:
+Weight initialization: PASS
+Single feed forward: PASS
+Multiple feed forward: PASS
 Single back prop:
 Multiple back prop:
 Gradient decent:

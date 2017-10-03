@@ -15,12 +15,15 @@ int main()
 
 	//Declare training params
 	int batch_size = 3;
-	int nr_epoch = 2;
+	int nr_epoch = 1;
 	double learning_rate = 0.2;
 	//int nr_batch;
 
 	//Intialize model and train graph parameters
 	//model_param m_p(layer);
+	//initialize_param(&m_p);
+	//m_p.print_weight();
+	//m_p.print_bias();
 	model_param m_p = read_model("model_1.txt");
     //m_p.print_weight();
     //m_p.print_bias();
@@ -63,8 +66,8 @@ int main()
 			gradient_descent(&m_p, &b_p, learning_rate);
 			//m_p.print_weight();
 		}
-		f_p.print_linear();
-		f_p.print_activated();
+		//f_p.print_linear();
+		//f_p.print_activated();
 		//Print accuracy and cost on test data set
         //X_test = submatrix(X_all, 0, 0, 16, batch_size);
         //Y_test = submatrix(Y_all, 0, 0, 26, batch_size);
