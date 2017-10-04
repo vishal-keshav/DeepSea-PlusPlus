@@ -207,7 +207,8 @@ void gradient_descent(model_param *m_p, backward_param *b_p, double learning_rat
 }
 
 int nr_correct(DynamicMatrix<double> label, DynamicMatrix<double> soft){
-	int ret = 0, max_index,max_elem;
+	int ret = 0, max_index;
+	double max_elem;
 	for(int i=0;i<label.columns();i++){
 		max_elem = -1;
 		max_index = -1;

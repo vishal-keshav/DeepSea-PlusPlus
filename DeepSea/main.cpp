@@ -53,7 +53,7 @@ int main()
 		DynamicMatrix<double> Y_test;
 		DynamicMatrix<double> O;
 
-		for(int j=0;j<2;j++){
+		for(int j=0;j<102;j++){
 			//Preapare input batch X and output label Y
 			//X = submatrix(X_all, 0, j*batch_size, 16 ,batch_size);
 			//Y = submatrix(Y_all, 0, j*batch_size, 26 ,batch_size);
@@ -66,8 +66,8 @@ int main()
 			gradient_descent(&m_p, &b_p, learning_rate);
 			//m_p.print_weight();
 		}
-		m_p.print_weight();
-		m_p.print_bias();
+		//m_p.print_weight();
+		//m_p.print_bias();
 		//f_p.print_linear();
 		//f_p.print_activated();
 		/*b_p.print_linear_derivative();
@@ -87,6 +87,8 @@ int main()
 		//cout << O << endl;
 		//m_p.print_weight();
 		cout << "Cost for epoch " << i << " is " << mean_cross_entropy_loss(Y_all, O) << endl;
+		cout << Y_all << endl;
+		cout << O << endl;
 		cout << "Accuracy for epoch " << i << " is " << accuracy(Y_all, O) << endl << endl;
 	}
 
