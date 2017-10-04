@@ -113,12 +113,12 @@ class backward_param{
 			}
 		}
 		void print_linear_derivative(void){
-			for(int i=0;i<nr_layer-1;i++){
+			for(int i=0;i<nr_layer;i++){
 				std::cout << dZ[i];
 			}
 		}
 		void print_activated_derivative(void){
-			for(int i=0;i<nr_layer-1;i++){
+			for(int i=0;i<nr_layer;i++){
 				std::cout << dA[i];
 			}
 		}
@@ -180,6 +180,7 @@ void back_prop(model_param *m_p, forward_param *f_p, backward_param *b_p, Dynami
     //std::cout << "To bug" << std::endl;
 #endif
     b_p->dZ[nr_layer-1] = derivative_cross_entropy_softmax(Y, f_p->A[nr_layer-1]);
+    //std::cout << b_p->dZ[nr_layer-1] << std::endl;
     //Iterate assuming relu as hidden units
     for(int i=nr_layer-2;i>=0;i--){
         b_p->dW[i] = mul(b_p->dZ[i+1], trans(f_p->A[i]));

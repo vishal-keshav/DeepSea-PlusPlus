@@ -63,11 +63,19 @@ int main()
 
 			feed_forward(&m_p, &f_p, X_all);
 			back_prop(&m_p, &f_p, &b_p, Y_all);
-			gradient_descent(&m_p, &b_p, learning_rate);
+			//gradient_descent(&m_p, &b_p, learning_rate);
 			//m_p.print_weight();
 		}
 		//f_p.print_linear();
 		//f_p.print_activated();
+		b_p.print_linear_derivative();
+		cout << endl;
+		b_p.print_activated_derivative();
+		cout << endl;
+		b_p.print_weight_derivative();
+		cout << endl;
+		b_p.print_bias_derivative();
+		cout << endl;
 		//Print accuracy and cost on test data set
         //X_test = submatrix(X_all, 0, 0, 16, batch_size);
         //Y_test = submatrix(Y_all, 0, 0, 26, batch_size);

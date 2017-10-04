@@ -3,9 +3,9 @@ Black box testing:
 Weight initialization: PASS
 Single feed forward: PASS
 Multiple feed forward: PASS
-Single back prop:
-Multiple back prop:
-Gradient decent:
+Single back prop: PASS
+Multiple back prop: PASS
+Gradient decent: 
 Loss function:
 Accuracy calculator:
 
