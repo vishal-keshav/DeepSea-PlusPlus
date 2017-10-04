@@ -5,9 +5,9 @@ Single feed forward: PASS
 Multiple feed forward: PASS
 Single back prop: PASS
 Multiple back prop: PASS
-Gradient decent: 
-Loss function:
-Accuracy calculator:
+Gradient decent: PASS
+Loss function: PASS
+Accuracy calculator: PASS
 
 White box testing:
 Training:

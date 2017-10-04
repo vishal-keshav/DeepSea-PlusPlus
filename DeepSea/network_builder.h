@@ -217,7 +217,7 @@ int nr_correct(DynamicMatrix<double> label, DynamicMatrix<double> soft){
 				max_index = j;
 			}
 		}
-		if(label(max_index,i) == 1){
+		if(label(max_index,i) > 0){
 			ret++;
 		}
 	}

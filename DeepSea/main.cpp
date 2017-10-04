@@ -16,7 +16,7 @@ int main()
 	//Declare training params
 	int batch_size = 3;
 	int nr_epoch = 1;
-	double learning_rate = 0.2;
+	double learning_rate = 0.1;
 	//int nr_batch;
 
 	//Intialize model and train graph parameters
@@ -53,7 +53,7 @@ int main()
 		DynamicMatrix<double> Y_test;
 		DynamicMatrix<double> O;
 
-		for(int j=0;j<1;j++){
+		for(int j=0;j<2;j++){
 			//Preapare input batch X and output label Y
 			//X = submatrix(X_all, 0, j*batch_size, 16 ,batch_size);
 			//Y = submatrix(Y_all, 0, j*batch_size, 26 ,batch_size);
@@ -63,19 +63,22 @@ int main()
 
 			feed_forward(&m_p, &f_p, X_all);
 			back_prop(&m_p, &f_p, &b_p, Y_all);
-			//gradient_descent(&m_p, &b_p, learning_rate);
+			gradient_descent(&m_p, &b_p, learning_rate);
 			//m_p.print_weight();
 		}
+		m_p.print_weight();
+		m_p.print_bias();
 		//f_p.print_linear();
 		//f_p.print_activated();
-		b_p.print_linear_derivative();
+		/*b_p.print_linear_derivative();
 		cout << endl;
 		b_p.print_activated_derivative();
 		cout << endl;
 		b_p.print_weight_derivative();
 		cout << endl;
 		b_p.print_bias_derivative();
-		cout << endl;
+		cout << endl;*/
+
 		//Print accuracy and cost on test data set
         //X_test = submatrix(X_all, 0, 0, 16, batch_size);
         //Y_test = submatrix(Y_all, 0, 0, 26, batch_size);
