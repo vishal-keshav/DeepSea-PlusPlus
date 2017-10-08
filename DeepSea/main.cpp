@@ -10,18 +10,20 @@ using namespace std;
 int main()
 {
 	//Define layer structure
-	static const int arr[] = {16,40,26};
+	//static const int arr[] = {3,4,2};
+	static const int arr[] = {16,20,26};
 	vector<int> layer (arr, arr + sizeof(arr)/sizeof(arr[0]));
 
 	//Declare training params
-	int batch_size = 50;
-	int nr_epoch = 1;
-	double learning_rate = 0.01;
+	int batch_size = 10;
+	int nr_epoch = 10;
+	double learning_rate = 0.1;
 	int nr_batch;
 
 	//Intialize model and train graph parameters
 	model_param m_p(layer);
 	initialize_param(&m_p);
+
 	//m_p.print_weight();
 	//m_p.print_bias();
 	//model_param m_p = read_model("model_1.txt");
@@ -42,7 +44,8 @@ int main()
 	//cout << X_all << endl;
 	//cout << Y_all << endl;
 
-	nr_batch = X_all.columns()/batch_size;
+	//nr_batch = X_all.columns()/batch_size;
+	nr_batch = 1;
 
 	//Start training
 	for(int i=0;i<nr_epoch;i++){
@@ -54,10 +57,11 @@ int main()
 		DynamicMatrix<double> Y_test;
 		DynamicMatrix<double> O;
 
-		for(int j=0;j<nr_batch-1;j++){
+		for(int j=0;j<nr_batch;j++){
+            //cout << "WTF" << endl;
 			//Preapare input batch X and output label Y
-			X = submatrix(X_all, 0, j*batch_size, 16 ,batch_size);
-			Y = submatrix(Y_all, 0, j*batch_size, 26 ,batch_size);
+			X = submatrix(X_all, 0, 0, 16 ,batch_size);
+			Y = submatrix(Y_all, 0, 0, 26 ,batch_size);
 
 			//cout << X << endl;
 			//cout << Y << endl;
@@ -65,12 +69,14 @@ int main()
 			feed_forward(&m_p, &f_p, X);
 			back_prop(&m_p, &f_p, &b_p, Y);
 			gradient_descent(&m_p, &b_p, learning_rate);
+			//O = predict(&m_p, &f_p, X);
+			//cout <<  mean_cross_entropy_loss(Y, O) << endl;
 			//m_p.print_weight();
 		}
 		//m_p.print_weight();
 		//m_p.print_bias();
 		//f_p.print_linear();
-		//f_p.print_activated();
+		f_p.print_activated();
 		/*b_p.print_linear_derivative();
 		cout << endl;
 		b_p.print_activated_derivative();
@@ -84,11 +90,12 @@ int main()
         X_test = submatrix(X_all, 0, 0, 16, batch_size);
         Y_test = submatrix(Y_all, 0, 0, 26, batch_size);
 		O = predict(&m_p, &f_p, X_test);
+		//cout << O << endl;
 		//cout << Y_test << endl;
 		//cout << O << endl;
 		//m_p.print_weight();
 		cout << "Cost for epoch " << i << " is " << mean_cross_entropy_loss(Y_test, O) << endl;
-		//cout << Y_all << endl;
+		//cout << Y_test << endl;
 		//cout << O << endl;
 		cout << "Accuracy for epoch " << i << " is " << accuracy(Y_test, O) << endl << endl;
 	}

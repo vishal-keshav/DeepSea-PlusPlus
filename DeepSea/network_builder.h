@@ -81,7 +81,7 @@ class forward_param{
 		}
 		void print_activated(void){
 			for(int i=0;i<nr_layer;i++){
-				std::cout << A[i];
+				std::cout << A[i] << std::endl;
 			}
 		}
 
@@ -136,15 +136,15 @@ class backward_param{
 
 
 void initialize_param(model_param * m_p){
-	default_random_engine generator;
-	normal_distribution<double> distribution(0.0,1.0);
 	for(int i=0;i<m_p->nr_layer-1;i++){
+	    default_random_engine generator;
+        normal_distribution<double> distribution(0.1,1.0/sqrt(m_p->layer_info[i]));
 		for(int j=0;j<m_p->W[i].rows();j++){
 			for(int k=0;k<m_p->W[i].columns();k++){
 				m_p->W[i](j,k) = distribution(generator);
 			}
 		}
-		m_p->W[i] = m_p->W[i]*0.1;
+		m_p->W[i] = m_p->W[i];
 	}
 	for(int i=0;i<m_p->nr_layer-1;i++){
 		for(int j=0;j<m_p->b[i].rows();j++){

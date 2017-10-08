@@ -10,5 +10,5 @@ Loss function: PASS
 Accuracy calculator: PASS
 
 White box testing:
-Training:
-Prediction:
+Training: FAIL
+Prediction: FAIL
