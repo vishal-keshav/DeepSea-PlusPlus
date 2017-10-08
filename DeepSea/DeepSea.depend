@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1507469348 source:d:\personal files\deepsea-plusplus\deepsea\main.cpp
+1507471692 source:d:\personal files\deepsea-plusplus\deepsea\main.cpp
 	<iostream>
 	"math_util.h"
 	"network_builder.h"
@@ -7,8 +7,9 @@
 	"prediction.h"
 	<blaze/Math.h>
 	<vector>
+	<algorithm>
 
-1506445247 d:\personal files\deepsea-plusplus\deepsea\math_util.h
+1507471805 d:\personal files\deepsea-plusplus\deepsea\math_util.h
 	<blaze/Math.h>
 	<iostream>
 

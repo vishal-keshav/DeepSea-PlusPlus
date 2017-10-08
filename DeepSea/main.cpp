@@ -5,18 +5,19 @@
 #include "prediction.h"
 #include <blaze/Math.h>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 int main()
 {
 	//Define layer structure
 	//static const int arr[] = {3,4,2};
-	static const int arr[] = {16,20,26};
+	static const int arr[] = {16,20, 30, 26};
 	vector<int> layer (arr, arr + sizeof(arr)/sizeof(arr[0]));
 
 	//Declare training params
-	int batch_size = 10;
-	int nr_epoch = 10;
+	int batch_size = 100;
+	int nr_epoch = 1000;
 	double learning_rate = 0.1;
 	int nr_batch;
 
@@ -76,7 +77,7 @@ int main()
 		//m_p.print_weight();
 		//m_p.print_bias();
 		//f_p.print_linear();
-		f_p.print_activated();
+		//f_p.print_activated();
 		/*b_p.print_linear_derivative();
 		cout << endl;
 		b_p.print_activated_derivative();
