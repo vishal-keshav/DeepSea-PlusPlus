@@ -126,10 +126,17 @@ DynamicMatrix<double> apply_log(DynamicMatrix<double> A){
 	return A;
 }
 
-DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
+/*DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
 	//softmax(vec) = exp(v_i)/sum(exp(v_i)) over all i
 	//Considering each column represent one set of input
-	DynamicMatrix<double> B = map(A, [](double elem) {return std::min(std::max(pow(10.0, -0.10),exp(elem)), pow(10.0,10.0));});
+
+	//double max_elem = max(A);
+	//std::cout << A << std::endl;
+	//std::cout << max_elem << std::endl;
+	//DynamicMatrix<double> I(A.rows(), A.columns(), 1);
+    //A = A - I*max_elem;
+    //std::cout << A << std::endl;
+	DynamicMatrix<double> B = map(A, [](double elem) {return exp(elem);});
 	DynamicMatrix<double> sum(1,B.columns());
 	sum = 0;
 	for(int i=0;i<B.rows();i++){
@@ -142,6 +149,35 @@ DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
 			B(i,j) = B(i,j)/sum(0,j);
 		}
 	}
+	//std::cout << B << std::endl;
+	return B;
+}*/
+//Numerically stable implementation
+DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
+	//softmax(vec) = exp(v_i)/sum(exp(v_i)) over all i
+	//Considering each column represent one set of input
+	DynamicMatrix<double> B = A;
+	double max_elem, sum_elem;
+	for(int i=0;i<B.columns();i++){
+        //max_elem = max(submatrix(B, 0, i, B.rows() ,1));
+        max_elem = -1000000.0;
+        for(int j=0;j<B.rows();j++){
+            if(max_elem<B(j,i)){
+                max_elem = B(j,i);
+            }
+        }
+        for(int j=0;j<B.rows();j++){
+            B(j,i) = exp(B(j,i) - max_elem);
+        }
+        sum_elem = 0;
+        for(int j=0;j<B.rows();j++){
+            sum_elem += B(j,i);
+        }
+        for(int j=0;j<B.rows();j++){
+            B(j,i) = B(j,i)/sum_elem;
+        }
+	}
+	//std::cout << B << std::endl;
 	return B;
 }
 

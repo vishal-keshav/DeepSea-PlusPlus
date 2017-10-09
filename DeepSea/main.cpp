@@ -10,14 +10,23 @@
 using namespace std;
 int main()
 {
+    blaze::StaticMatrix<double,3UL,3UL> A{ { -1.0,  2.0, -3.0 }
+                                  , { -4.0, -5.0,  6.0 }
+                                  , {  7.0, -8.0, -9.0 } };
+    DynamicMatrix<double> in = A;
+    DynamicMatrix<double> out = apply_softmax(in);
+    cout << out << endl;
+
+
+    srand(1);
 	//Define layer structure
 	//static const int arr[] = {3,4,2};
-	static const int arr[] = {16,20, 30, 26};
+	static const int arr[] = {16,20, 26};
 	vector<int> layer (arr, arr + sizeof(arr)/sizeof(arr[0]));
 
 	//Declare training params
-	int batch_size = 100;
-	int nr_epoch = 1000;
+	int batch_size = 10;
+	int nr_epoch = 10;
 	double learning_rate = 0.1;
 	int nr_batch;
 
@@ -68,7 +77,9 @@ int main()
 			//cout << Y << endl;
 
 			feed_forward(&m_p, &f_p, X);
+			//cout << "Hi" << endl;
 			back_prop(&m_p, &f_p, &b_p, Y);
+			//cout << "Bye" << endl;
 			gradient_descent(&m_p, &b_p, learning_rate);
 			//O = predict(&m_p, &f_p, X);
 			//cout <<  mean_cross_entropy_loss(Y, O) << endl;
@@ -96,8 +107,8 @@ int main()
 		//cout << O << endl;
 		//m_p.print_weight();
 		cout << "Cost for epoch " << i << " is " << mean_cross_entropy_loss(Y_test, O) << endl;
-		//cout << Y_test << endl;
-		//cout << O << endl;
+		cout << Y_test << endl;
+		cout << O << endl;
 		cout << "Accuracy for epoch " << i << " is " << accuracy(Y_test, O) << endl << endl;
 	}
 
