@@ -10,36 +10,20 @@
 using namespace std;
 int main()
 {
-    blaze::StaticMatrix<double,3UL,3UL> A{ { -1.0,  2.0, -3.0 }
-                                  , { -4.0, -5.0,  6.0 }
-                                  , {  7.0, -8.0, -9.0 } };
-    DynamicMatrix<double> in = A;
-    DynamicMatrix<double> out = apply_softmax(in);
-    cout << out << endl;
-
-
     srand(1);
 	//Define layer structure
-	//static const int arr[] = {3,4,2};
-	static const int arr[] = {16,20, 26};
+	static const int arr[] = {16,20,40, 26};
 	vector<int> layer (arr, arr + sizeof(arr)/sizeof(arr[0]));
 
 	//Declare training params
-	int batch_size = 10;
-	int nr_epoch = 10;
-	double learning_rate = 0.1;
+	int batch_size = 50;
+	int nr_epoch = 200;
+	double learning_rate = 0.01;
 	int nr_batch;
 
-	//Intialize model and train graph parameters
+	//Initialize model and train graph parameters
 	model_param m_p(layer);
 	initialize_param(&m_p);
-
-	//m_p.print_weight();
-	//m_p.print_bias();
-	//model_param m_p = read_model("model_1.txt");
-    //m_p.print_weight();
-    //m_p.print_bias();
-	//initialize_param(&m_p);
 
 	forward_param f_p(layer, batch_size);
 	backward_param b_p(layer, batch_size);
@@ -48,71 +32,41 @@ int main()
 	int *temp_label;
 	DynamicMatrix<double> X_all = read_csv_modified("letter-recognition.data", 20000, 16, &temp_label);
 	DynamicMatrix<double> Y_all = get_label_modified(temp_label, 26, 20000);
-	//DynamicMatrix<double> X_all = read_csv("sample_data1.csv", 3, 3);
-	//DynamicMatrix<double> Y_all = read_csv("sample_data2.csv", 2, 3);
 
-	//cout << X_all << endl;
-	//cout << Y_all << endl;
+	nr_batch = X_all.columns()/batch_size;
 
-	//nr_batch = X_all.columns()/batch_size;
-	nr_batch = 1;
+    //Allocate matrix variables to be used at training
+    DynamicMatrix<double> X;
+    DynamicMatrix<double> Y;
+
+    DynamicMatrix<double> X_test;
+    DynamicMatrix<double> Y_test;
+    DynamicMatrix<double> O;
 
 	//Start training
 	for(int i=0;i<nr_epoch;i++){
-		//Allocate matrix space
-		DynamicMatrix<double> X;
-		DynamicMatrix<double> Y;
 
-		DynamicMatrix<double> X_test;
-		DynamicMatrix<double> Y_test;
-		DynamicMatrix<double> O;
 
 		for(int j=0;j<nr_batch;j++){
-            //cout << "WTF" << endl;
-			//Preapare input batch X and output label Y
-			X = submatrix(X_all, 0, 0, 16 ,batch_size);
-			Y = submatrix(Y_all, 0, 0, 26 ,batch_size);
-
-			//cout << X << endl;
-			//cout << Y << endl;
+			//Prepare input batch X and output label Y
+			X = submatrix(X_all, 0, j*batch_size, 16 ,batch_size);
+			Y = submatrix(Y_all, 0, j*batch_size, 26 ,batch_size);
 
 			feed_forward(&m_p, &f_p, X);
-			//cout << "Hi" << endl;
 			back_prop(&m_p, &f_p, &b_p, Y);
-			//cout << "Bye" << endl;
 			gradient_descent(&m_p, &b_p, learning_rate);
-			//O = predict(&m_p, &f_p, X);
-			//cout <<  mean_cross_entropy_loss(Y, O) << endl;
-			//m_p.print_weight();
 		}
-		//m_p.print_weight();
-		//m_p.print_bias();
-		//f_p.print_linear();
-		//f_p.print_activated();
-		/*b_p.print_linear_derivative();
-		cout << endl;
-		b_p.print_activated_derivative();
-		cout << endl;
-		b_p.print_weight_derivative();
-		cout << endl;
-		b_p.print_bias_derivative();
-		cout << endl;*/
 
-		//Print accuracy and cost on test data set
+		//Print accuracy and cost on test data set, test set should be separated, but I am lazy :/
         X_test = submatrix(X_all, 0, 0, 16, batch_size);
         Y_test = submatrix(Y_all, 0, 0, 26, batch_size);
 		O = predict(&m_p, &f_p, X_test);
-		//cout << O << endl;
-		//cout << Y_test << endl;
-		//cout << O << endl;
-		//m_p.print_weight();
+
 		cout << "Cost for epoch " << i << " is " << mean_cross_entropy_loss(Y_test, O) << endl;
-		cout << Y_test << endl;
-		cout << O << endl;
 		cout << "Accuracy for epoch " << i << " is " << accuracy(Y_test, O) << endl << endl;
 	}
 
-	//write_model(&m_p, "model_2.txt");
+	write_model(&m_p, "model_3.txt");
 
     return 0;
 }

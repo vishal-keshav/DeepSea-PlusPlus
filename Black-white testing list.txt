@@ -1,4 +1,4 @@
-Black box testing:
+=========Black box testing==========
 
 Weight initialization: PASS
 Single feed forward: PASS
@@ -9,6 +9,7 @@ Gradient decent: PASS
 Loss function: PASS
 Accuracy calculator: PASS
 
-White box testing:
-Training: FAIL
-Prediction: FAIL
+=========White box testing============
+
+Training: PASS
+Prediction: PASS

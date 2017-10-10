@@ -126,41 +126,14 @@ DynamicMatrix<double> apply_log(DynamicMatrix<double> A){
 	return A;
 }
 
-/*DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
-	//softmax(vec) = exp(v_i)/sum(exp(v_i)) over all i
-	//Considering each column represent one set of input
-
-	//double max_elem = max(A);
-	//std::cout << A << std::endl;
-	//std::cout << max_elem << std::endl;
-	//DynamicMatrix<double> I(A.rows(), A.columns(), 1);
-    //A = A - I*max_elem;
-    //std::cout << A << std::endl;
-	DynamicMatrix<double> B = map(A, [](double elem) {return exp(elem);});
-	DynamicMatrix<double> sum(1,B.columns());
-	sum = 0;
-	for(int i=0;i<B.rows();i++){
-        for(int j=0;j<B.columns();j++){
-            sum(0,j)= sum(0,j) + B(i,j);
-        }
-	}
-	for(int i=0;i<B.rows();i++){
-		for(int j=0;j<B.columns();j++){
-			B(i,j) = B(i,j)/sum(0,j);
-		}
-	}
-	//std::cout << B << std::endl;
-	return B;
-}*/
-//Numerically stable implementation
+//Numerically stable implementation of softmax
 DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
 	//softmax(vec) = exp(v_i)/sum(exp(v_i)) over all i
 	//Considering each column represent one set of input
 	DynamicMatrix<double> B = A;
 	double max_elem, sum_elem;
 	for(int i=0;i<B.columns();i++){
-        //max_elem = max(submatrix(B, 0, i, B.rows() ,1));
-        max_elem = -1000000.0;
+        max_elem = max(submatrix(B, 0, i, B.rows() ,1));
         for(int j=0;j<B.rows();j++){
             if(max_elem<B(j,i)){
                 max_elem = B(j,i);
@@ -177,10 +150,9 @@ DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
             B(j,i) = B(j,i)/sum_elem;
         }
 	}
-	//std::cout << B << std::endl;
 	return B;
 }
-
+//TODO: Implement numerically stable loss calculation function
 double mean_cross_entropy_loss(DynamicMatrix<double> hot, DynamicMatrix<double> soft){
 	double ret = 0.0;
 #ifdef DEBUG
