@@ -19,7 +19,7 @@
 #include <iostream>
 #include <blaze/Math.h>
 
-//This is un-optimized version of predictor, will be extended after performance test
+//This is "un-optimized" version of predictor, will be extended after performance test
 DynamicMatrix<double> predict(model_param *m_p, forward_param *f_p, DynamicMatrix<double> input){
 	feed_forward(m_p, f_p, input);
 	return f_p->A[f_p->nr_layer-1];

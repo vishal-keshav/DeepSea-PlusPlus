@@ -26,6 +26,8 @@
 
 using namespace std;
 
+/*Data structure for holding model parameters
+  Reference model used for faster inference*/
 class model_param{
 	public:
         int nr_layer;
@@ -55,6 +57,10 @@ class model_param{
 		}
 };
 
+
+/*Data structure for holding layer computed outputs
+  and activated layer outputs.
+  Reference model used for faster inference, refer to main function*/
 class forward_param{
 	public:
         int nr_layer;
@@ -87,6 +93,10 @@ class forward_param{
 
 };
 
+
+/*Data structure for holding gradient of output, weights and bias
+  In gradient decent step, differences are being used to correct model_param
+  Reference model used for faster inference, refer to main function*/
 class backward_param{
 	public:
         int nr_layer;
@@ -134,7 +144,7 @@ class backward_param{
 		}
 };
 
-
+/*Initialization has been done as per best standards*/
 void initialize_param(model_param * m_p){
 	for(int i=0;i<m_p->nr_layer-1;i++){
 	    default_random_engine generator;
@@ -144,7 +154,7 @@ void initialize_param(model_param * m_p){
 				m_p->W[i](j,k) = distribution(generator);
 			}
 		}
-		m_p->W[i] = m_p->W[i];
+		//m_p->W[i] = m_p->W[i];
 	}
 	for(int i=0;i<m_p->nr_layer-1;i++){
 		for(int j=0;j<m_p->b[i].rows();j++){
@@ -155,6 +165,9 @@ void initialize_param(model_param * m_p){
 	}
 }
 
+/*Feed forward function fills in batch input, and matrix multiplication starts
+Several initialization are un-neccessary and will be removed for efficiency
+TODO: Make generic activated forward propagation*/
 void feed_forward(model_param *m_p, forward_param *f_p, DynamicMatrix<double> X){
 	int nr_layer = m_p->nr_layer;
 	//For now we can assume relu has been applied in hidden units and ends with softmax
@@ -173,11 +186,15 @@ void feed_forward(model_param *m_p, forward_param *f_p, DynamicMatrix<double> X)
 	f_p->A[nr_layer-1] = apply_softmax(f_p->Z[nr_layer-1]);
 }
 
+/*Back propagation implements optimization step for loss
+TO-DO: Gradient check for correct gradient calculation debugging*/
 void back_prop(model_param *m_p, forward_param *f_p, backward_param *b_p, DynamicMatrix<double> Y){
     int nr_layer = m_p->nr_layer;
     //For now, we assume softmax at last layer with cross entropy cost function
 #ifdef DEBUG
-    //std::cout << "To bug" << std::endl;
+	if(f_p->Z[f_p->nr_layer-1].columns()!=Y.columns()){
+		std::cout << "Warning a: dimention mismatch" << std::endl;
+	}
 #endif
     b_p->dZ[nr_layer-1] = derivative_cross_entropy_softmax(Y, f_p->A[nr_layer-1]);
     //Iterate assuming relu as hidden units
@@ -197,6 +214,7 @@ void back_prop(model_param *m_p, forward_param *f_p, backward_param *b_p, Dynami
     }
 }
 
+/*Applies gradient decent step to each weight and bias from model_param*/
 void gradient_descent(model_param *m_p, backward_param *b_p, double learning_rate){
     int nr_layer = m_p->nr_layer;
     for(int i=0;i<nr_layer-1;i++){

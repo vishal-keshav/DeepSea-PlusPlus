@@ -20,9 +20,9 @@
 #include <iostream>
 
 #define DEBUG 0
-using blaze::DynamicMatrix; //Every vector is a matrix (or can be treated as)
+using blaze::DynamicMatrix;
 
-//Broadcasting enabled
+//Broadcasting enabled addition of matrix-matrix, matrix-vector
 DynamicMatrix<double> add(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 	if(A.rows()==B.rows() && A.columns()==B.columns()){
@@ -50,7 +50,7 @@ DynamicMatrix<double> add(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 }
 
-//Broadcasting enabled
+//Broadcasting enabled subtraction of matrix-matrix, matrix-vector
 DynamicMatrix<double> subs(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 	if(A.rows()==B.rows() && A.columns()==B.columns()){
@@ -78,6 +78,7 @@ DynamicMatrix<double> subs(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 }
 
+//Dot product of two "compatible" matrices
 DynamicMatrix<double> mul(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 	if(A.columns()==B.rows()){
@@ -92,6 +93,7 @@ DynamicMatrix<double> mul(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 }
 
+//Element wise product
 DynamicMatrix<double> mul_elem(DynamicMatrix<double> A, DynamicMatrix<double> B){
 
 	if(A.rows()==B.rows() && A.columns()==B.columns()){
@@ -105,22 +107,27 @@ DynamicMatrix<double> mul_elem(DynamicMatrix<double> A, DynamicMatrix<double> B)
 	}
 }
 
+//Scalar multiplication to a matrix, will be depreciated
 DynamicMatrix<double> scaler_mul_elem(DynamicMatrix<double> A, double m){
 
 	return A*m;
 
 }
 
+//Relu, fast implementation
 DynamicMatrix<double> apply_relu(DynamicMatrix<double> A){
 	A = map(A, [](double elem) {return (elem>0?elem:0);});
 	return A;
 }
 
+//Sigmoid, numerically unstable
 DynamicMatrix<double> apply_sigmoid(DynamicMatrix<double> A){
 	A = map(A, [](double elem) {return (1.0/(1+exp(elem)));});
 	return A;
 }
 
+
+//Log, numerically unstable
 DynamicMatrix<double> apply_log(DynamicMatrix<double> A){
 	A = map(A, [](double elem) {return log(elem);});
 	return A;
@@ -134,6 +141,7 @@ DynamicMatrix<double> apply_softmax(DynamicMatrix<double> A){
 	double max_elem, sum_elem;
 	for(int i=0;i<B.columns();i++){
         max_elem = max(submatrix(B, 0, i, B.rows() ,1));
+        //TODO: Efficient implementation of below code blocks required
         for(int j=0;j<B.rows();j++){
             if(max_elem<B(j,i)){
                 max_elem = B(j,i);
@@ -174,10 +182,12 @@ double mean_cross_entropy_loss(DynamicMatrix<double> hot, DynamicMatrix<double> 
 	return ret;
 }
 
+//Derivative of last layer output, without applying softmax directly.
 DynamicMatrix<double> derivative_cross_entropy_softmax(DynamicMatrix<double> hot, DynamicMatrix<double> soft){
     return subs(soft, hot);
 }
 
+//Derivative for relu, from hidden layers
 DynamicMatrix<double> derivative_relu(DynamicMatrix<double> A){
 	A = map(A, [](double elem) {return (elem<0?0:1);});
 	return A;

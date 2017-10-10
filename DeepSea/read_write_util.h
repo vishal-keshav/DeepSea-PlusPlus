@@ -56,6 +56,7 @@ DynamicMatrix<double> read_csv(string file_name, int nr_rows, int nr_cols){
 	return ret;
 }
 
+//This will be depreciated
 DynamicMatrix<double> read_csv_modified(string file_name, int nr_rows, int nr_cols, int **label){
 	DynamicMatrix<double> ret(nr_cols, nr_rows);
 	int *ret_label = new int[nr_rows];
@@ -88,6 +89,7 @@ DynamicMatrix<double> read_csv_modified(string file_name, int nr_rows, int nr_co
 	return ret;
 }
 
+//This will be depreciated
 DynamicMatrix<double> get_label_modified(int *label, int rows, int cols){
 	DynamicMatrix<double> ret(rows,cols);
 	ret = 0.0;
@@ -138,9 +140,7 @@ model_param read_model(string file_name){
 	}
 	//TO-DO: Debug this issue, last element repeated
 	layer_info.pop_back();
-	/*for(int i=0;i<layer_info.size();i++){
-        std::cout << layer_info[i] << " ";
-	}*/
+
 	vector<DynamicMatrix<double> > weights;
 	vector<DynamicMatrix<double> > bias;
 	model_param m_p(layer_info);
