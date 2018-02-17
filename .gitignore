@@ -1,12 +1,9 @@
-*.log
-.txt
 /DeepSea/bin
 /DeepSea/obj
 /DeepSea/DeepSea.cpb
 /DeepSea/DeepSea.depend
 /DeepSea/DeepSea.layout
 /DeepSea/letter-recognition.data
-/DeepSea/model_3.txt
 .o
 .exe
 
