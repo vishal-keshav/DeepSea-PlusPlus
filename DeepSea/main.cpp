@@ -35,7 +35,7 @@ int main()
 
 	//Declare training params
 	int batch_size = 50;
-	int nr_epoch = 200;
+	int nr_epoch = 2;
 	double learning_rate = 0.01;
 	int nr_batch;
 
